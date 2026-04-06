@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Convert MD to Excel",
+  "description": "Manually runs the convert_to_excel.py script to convert markdown test cases to Excel.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "python convert_to_excel.py"
+  }
+}
