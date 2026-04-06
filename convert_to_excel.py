@@ -721,12 +721,42 @@ def parse_module_files(base_dir='test_cases_by_module'):
         val = re.sub(r'<[^>]+>', '', val)
         return val.strip()
 
+    # Mapping of Others filenames (without extension) to readable sheet names
+    others_file_module_map = {
+        'amount_processing': 'Amount Processing',
+        'collection_header_setup': 'Collection Header Setup',
+        'collection_reversal': 'Collection Reversal',
+        'customer_operations': 'Customer Operations',
+        'due_date_validation': 'Due Date Validation',
+        'eod_procedures': 'EOD Procedures',
+        'gl_account_mapping': 'GL Account Mapping',
+        'invoice_generation': 'Invoice Generation',
+        'line_of_business_determination': 'Line of Business',
+        'modal_premium_validation': 'Modal Premium Validation',
+        'non_policy_transactions': 'Non-Policy Transactions',
+        'official_receipt_generation': 'Official Receipt Generation',
+        'payment_methods': 'Payment Methods',
+        'pdf_cap_validation': 'PDF Cap Validation',
+        'policy_data_retrieval': 'Policy Data Retrieval',
+        'policy_number_validation': 'Policy Number Validation',
+        'policy_status_validation': 'Policy Status Validation',
+        'representative_modal': 'Representative Modal',
+        'supervisor_override': 'Supervisor Override',
+        'trancode_filtering': 'TranCode Filtering',
+        'year_determination': 'Year Determination',
+    }
+
     all_rows = []
     for filepath in sorted(glob.glob(f'{base_dir}/**/*.md', recursive=True)):
         if 'README' in filepath:
             continue
         folder = os.path.basename(os.path.dirname(filepath))
-        module = folder_module_map.get(folder, folder)
+        filename = os.path.splitext(os.path.basename(filepath))[0]
+
+        if folder == 'Others':
+            module = others_file_module_map.get(filename, filename.replace('_', ' ').title())
+        else:
+            module = folder_module_map.get(folder, folder)
 
         with open(filepath, 'r', encoding='utf-8') as f:
             content = f.read()
